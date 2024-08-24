@@ -15,11 +15,12 @@ model Bill {
 }
 
 model BillItem {
-  id     String @id @default(cuid())
-  name   String
-  price  Float
-  billId String
-  bill   Bill   @relation(fields: [billId], references: [id])
+  id        String @id @default(cuid())
+  name      String
+  price     Float
+  quantity  Int 
+  billId    String
+  bill      Bill   @relation(fields: [billId], references: [id])
 }
 
 model BillUser {

@@ -59,6 +59,10 @@
   }
 }
 
+.custom-container {
+  @apply 2xl:px-72 xl:px-40 lg:px-32 md:px-20 px-4 mx-auto;
+}
+
 @layer base {
   * {
     @apply border-border;

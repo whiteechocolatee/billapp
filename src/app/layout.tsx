@@ -1,6 +1,8 @@
+import Header from '@/src/components/header';
+import { Toaster } from '@/src/components/ui/toaster';
+import { QueryProvider } from '@/src/providers/query-provider';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { QueryProvider } from '../providers/query-provider';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -19,7 +21,11 @@ export default function RootLayout({
   return (
     <html lang="uk">
       <body className={inter.className}>
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <Header />
+          <main className="custom-container">{children}</main>
+        </QueryProvider>
+        <Toaster />
       </body>
     </html>
   );
