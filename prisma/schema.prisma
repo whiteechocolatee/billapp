@@ -9,24 +9,26 @@ datasource db {
 
 model Bill {
   id          String     @id @default(cuid())
+  name        String
   items       BillItem[]
   totalAmount Float
   users       BillUser[]
 }
 
 model BillItem {
-  id        String @id @default(cuid())
-  name      String
-  price     Float
-  quantity  Int 
-  billId    String
-  bill      Bill   @relation(fields: [billId], references: [id])
+  id       String @id @default(cuid())
+  name     String
+  price    Float
+  quantity Int
+  billId   String
+  bill     Bill   @relation(fields: [billId], references: [id], onDelete: Cascade)
 }
 
 model BillUser {
-  id          String @id @default(cuid())
+  id          String   @id @default(cuid())
   billId      String
   name        String
   shareAmount Float
-  bill        Bill   @relation(fields: [billId], references: [id])
+  createdAt   DateTime @default(now())
+  bill        Bill     @relation(fields: [billId], references: [id], onDelete: Cascade)
 }

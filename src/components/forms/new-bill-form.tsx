@@ -29,6 +29,7 @@ export default function NewBillForm({ onClose }: FormProps) {
   const form = useForm<FormValues>({
     resolver: zodResolver(newBillSchema),
     defaultValues: {
+      name: '',
       dishes: [{ name: '', quantity: 1, pricePerUnit: 0, totalPrice: 0 }],
     },
   });
@@ -40,7 +41,7 @@ export default function NewBillForm({ onClose }: FormProps) {
     name: 'dishes',
   });
   const dishes = watch('dishes');
-  const isDisabled = dishes.length || mutation.isPending;
+  const isDisabled = dishes.length;
 
   useEffect(() => {
     dishes.forEach((dish, index) => {
@@ -57,7 +58,7 @@ export default function NewBillForm({ onClose }: FormProps) {
       {
         onSuccess: data => {
           toast({
-            title: 'Списання успішно створено!',
+            title: 'Рахунок успішно створено!',
             description: data.message,
           });
           reset();
@@ -81,6 +82,19 @@ export default function NewBillForm({ onClose }: FormProps) {
         className="flex flex-col gap-3"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <div className="flex flex-col gap-4">
+          <FormField
+            control={control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Назва рахунку</FormLabel>
+                <Input id={field.name} placeholder="Назва рахунку" {...field} />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         {fields.map((dishField, index) => (
           <div
             key={dishField.id}
@@ -198,7 +212,11 @@ export default function NewBillForm({ onClose }: FormProps) {
         <Button variant="outline" onClick={onClose}>
           Скасувати
         </Button>
-        <Button disabled={!isDisabled} type="submit" form="billForm">
+        <Button
+          disabled={!isDisabled || mutation.isPending}
+          type="submit"
+          form="billForm"
+        >
           Зберегти
         </Button>
       </div>
