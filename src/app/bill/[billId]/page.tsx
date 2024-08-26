@@ -8,6 +8,7 @@ import { Button } from '@/src/components/ui/button';
 import { colors } from '@/src/constants';
 import { useGetBillById } from '@/src/features/use-get-bill-by-id';
 import { Loader } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 
 type Props = {
@@ -15,7 +16,7 @@ type Props = {
 };
 
 function BillPage({ params: { billId } }: Props) {
-  const { data, isLoading } = useGetBillById(billId);
+  const { data, isLoading, isError } = useGetBillById(billId);
   const [open, setOpen] = useState<boolean>(false);
 
   if (isLoading) {
@@ -26,9 +27,28 @@ function BillPage({ params: { billId } }: Props) {
     );
   }
 
-  const {
-    data: { name, totalAmount, users, items, id },
-  } = data || {};
+  if (isError || !data?.data) {
+    return (
+      <div className="min-h-lvh flex text-rose-600 text-center flex-col items-center justify-center">
+        <h2 className="text-red-600 text-xl font-semibold mb-4">
+          Виникла помилка при завантаженні даних.
+        </h2>
+        {data?.message && <p>{data.message}</p>}
+        <div className="flex items-center mt-5 gap-4">
+          <Link href="/">
+            <Button className="underline" variant="link">
+              На головну
+            </Button>
+          </Link>
+          <Button onClick={() => window.location.reload()}>
+            Спробувати знову
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const { name, totalAmount, users, items, id } = data.data;
 
   return (
     <>
