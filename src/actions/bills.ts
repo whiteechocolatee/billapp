@@ -22,7 +22,7 @@ export const onCreateBill = async (values: z.infer<typeof newBillSchema>) => {
     const { name, dishes } = validatedValues.data;
 
     const billTotal = dishes.reduce(
-      (sum, dish) => sum + dish.quantity * dish.pricePerUnit,
+      (sum, dish) => sum + dish.quantity * +dish.pricePerUnit,
       0,
     );
 
@@ -33,7 +33,7 @@ export const onCreateBill = async (values: z.infer<typeof newBillSchema>) => {
         items: {
           create: dishes.map(dish => ({
             name: dish.name,
-            price: dish.pricePerUnit,
+            price: Number(dish.pricePerUnit),
             quantity: dish.quantity,
           })),
         },
