@@ -33,7 +33,7 @@ export default function BillTable({ items, totalAmount }: Props) {
               <TableCell className="text-center">{item.quantity}</TableCell>
               <TableCell className="text-center">{item.price}₴</TableCell>
               <TableCell className="text-right">
-                {item.price * item.quantity}
+                {item.price * item.quantity}₴
               </TableCell>
             </TableRow>
           ))}

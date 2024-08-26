@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from '@/src/components/ui/form';
 import { Input } from '@/src/components/ui/input';
+import { ScrollArea } from '@/src/components/ui/scroll-area';
 import { useToast } from '@/src/components/ui/use-toast';
 import { useCreateBill } from '@/src/features/use-create-bill';
 import { newBillSchema } from '@/src/schemas';
@@ -17,7 +18,6 @@ import { Delete, Plus } from 'lucide-react';
 import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { ScrollArea } from '../ui/scroll-area';
 
 type FormValues = z.infer<typeof newBillSchema>;
 
@@ -31,7 +31,7 @@ export default function NewBillForm({ onClose }: FormProps) {
     resolver: zodResolver(newBillSchema),
     defaultValues: {
       name: '',
-      dishes: [{ name: '', quantity: 1, pricePerUnit: 0, totalPrice: 0 }],
+      dishes: [{ name: '', quantity: 1, pricePerUnit: '', totalPrice: 0 }],
     },
   });
 
@@ -42,7 +42,7 @@ export default function NewBillForm({ onClose }: FormProps) {
     name: 'dishes',
   });
   const dishes = watch('dishes');
-  const isDisabled = dishes.length;
+  const isDisabled = dishes.length > 0;
 
   useEffect(() => {
     dishes.forEach((dish, index) => {
@@ -126,16 +126,16 @@ export default function NewBillForm({ onClose }: FormProps) {
                         id={field.name}
                         placeholder="Введіть кількість"
                         {...field}
-                        onChange={e => {
-                          const value = e.target.valueAsNumber || 0;
-                          field.onChange(value);
+                        onChange={({ target: { value } }) => {
+                          const numericValue = parseFloat(value) || 0;
+                          field.onChange(numericValue);
                           const pricePerUnit =
                             parseFloat(
                               watch(`dishes.${index}.pricePerUnit`).toString(),
                             ) || 0;
                           setValue(
                             `dishes.${index}.totalPrice`,
-                            value * pricePerUnit,
+                            numericValue * pricePerUnit,
                           );
                         }}
                       />
@@ -150,20 +150,19 @@ export default function NewBillForm({ onClose }: FormProps) {
                     <FormItem className="max-w-30">
                       <FormLabel className="text-xs">Ціна 1 шт.</FormLabel>
                       <Input
-                        type="number"
+                        type="text"
                         id={field.name}
                         placeholder="Введіть ціну за одиницю"
                         {...field}
-                        onChange={e => {
-                          const value = e.target.valueAsNumber || 0;
-                          field.onChange(value);
-                          const quantity =
-                            parseFloat(
-                              watch(`dishes.${index}.quantity`).toString(),
-                            ) || 0;
+                        onChange={({ target: { value } }) => {
+                          const numericValue = parseFloat(value);
+                          field.onChange(numericValue);
+                          const quantity = parseFloat(
+                            watch(`dishes.${index}.quantity`).toString(),
+                          );
                           setValue(
                             `dishes.${index}.totalPrice`,
-                            value * quantity,
+                            numericValue * quantity,
                           );
                         }}
                       />
@@ -204,7 +203,12 @@ export default function NewBillForm({ onClose }: FormProps) {
           type="button"
           variant="outline"
           onClick={() =>
-            append({ name: '', quantity: 1, pricePerUnit: 0, totalPrice: 0 })
+            append({
+              name: '',
+              quantity: 1,
+              pricePerUnit: '',
+              totalPrice: 0,
+            })
           }
         >
           <Plus className="size-4 mr-2" />
