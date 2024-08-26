@@ -10,7 +10,7 @@ export const newBillSchema = z.object({
           .number()
           .min(1, { message: 'Кількість повинна бути більше нуля' }),
         pricePerUnit: z
-          .number()
+          .string()
           .min(0, { message: 'Ціна за одиницю не може бути від’ємною' }),
         totalPrice: z.number().optional(),
       }),
