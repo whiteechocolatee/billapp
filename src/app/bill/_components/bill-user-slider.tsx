@@ -25,14 +25,14 @@ export default function BillUserSlider({
   return (
     <div className="w-full relative bg-red/30 p-5 rounded-2xl">
       <Image
-        className="absolute -top-10 -left-10"
+        className="hidden md:block absolute md:-top-10 md:-left-10"
         src="/user_bill.png"
         alt="user"
         width={120}
         height={120}
         loading="lazy"
       />
-      <div className="flex w-[300px] flex-col gap-4  ml-auto">
+      <div className="w-full md:w-[300px] flex flex-col gap-4  ml-auto">
         <div className="flex justify-between">
           <h3 className="text-xl font-semibold">{name}</h3>
           <p className="text-lg">{currentShareAmount}₴</p>

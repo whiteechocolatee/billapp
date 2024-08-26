@@ -27,8 +27,8 @@ export default function BillCard({ bill }: Props) {
 
   return (
     <Link href={`/bill/${id}`} className="transition-all hover:shadow-xl">
-      <Card className="p-8 bg-green text-white h-full">
-        <CardHeader className="flex-row justify-between">
+      <Card className="p-2 md:p-8 bg-green text-white flex items-center h-full">
+        <CardHeader className="flex-row w-full justify-between">
           <div className="space-y-1">
             <CardTitle>{name}</CardTitle>
             <CardDescription className="text-white">
@@ -37,7 +37,7 @@ export default function BillCard({ bill }: Props) {
             </CardDescription>
           </div>
           {users && users.length > 1 && (
-            <div className="flex items-center">
+            <div className="hidden lg:flex items-center">
               <UserPreview />
               <span className="ml-2 font-mono text-lg">
                 +{users.length - 1}
