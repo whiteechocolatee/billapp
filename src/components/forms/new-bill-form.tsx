@@ -153,13 +153,14 @@ export default function NewBillForm({ onClose }: FormProps) {
                         type="text"
                         id={field.name}
                         placeholder="Введіть ціну за одиницю"
-                        {...field}
+                        value={field.value || ''}
                         onChange={({ target: { value } }) => {
-                          const numericValue = parseFloat(value);
-                          field.onChange(numericValue);
-                          const quantity = parseFloat(
-                            watch(`dishes.${index}.quantity`).toString(),
-                          );
+                          field.onChange(value);
+                          const numericValue = parseFloat(value) || 0;
+                          const quantity =
+                            parseFloat(
+                              watch(`dishes.${index}.quantity`).toString(),
+                            ) || 0;
                           setValue(
                             `dishes.${index}.totalPrice`,
                             numericValue * quantity,
