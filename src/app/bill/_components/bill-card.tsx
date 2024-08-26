@@ -6,12 +6,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/src/components/ui/card';
+import { cn } from '@/src/lib/utils';
 import { Bill } from '@/src/types';
 import Image from 'next/image';
 import Link from 'next/link';
 
 type Props = {
   bill: Bill;
+  color: string;
 };
 
 function UserPreview() {
@@ -22,12 +24,14 @@ function UserPreview() {
   );
 }
 
-export default function BillCard({ bill }: Props) {
+export default function BillCard({ bill, color }: Props) {
   const { name, totalAmount, users, id } = bill;
 
   return (
     <Link href={`/bill/${id}`} className="transition-all hover:shadow-xl">
-      <Card className="p-2 md:p-8 bg-green text-white flex items-center h-full">
+      <Card
+        className={cn('p-2 md:p-8 text-white flex items-center h-full', color)}
+      >
         <CardHeader className="flex-row w-full justify-between">
           <div className="space-y-1">
             <CardTitle>{name}</CardTitle>

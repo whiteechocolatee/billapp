@@ -176,7 +176,7 @@ export default function NewBillForm({ onClose }: FormProps) {
                   name={`dishes.${index}.totalPrice`}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs">Загальна ціна</FormLabel>
+                      <FormLabel className="text-xs">Загальна</FormLabel>
                       <Input
                         disabled
                         type="number"

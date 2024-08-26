@@ -8,3 +8,5 @@ export const navigationLinks = [
     href: '/settings',
   },
 ];
+
+export const colors = ['bg-green', 'bg-red', 'bg-orange'];
