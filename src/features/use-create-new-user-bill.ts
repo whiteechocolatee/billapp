@@ -34,6 +34,9 @@ export const useCreateNewUserBill = () => {
       queryClient.invalidateQueries({
         queryKey: ['bill', billId],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['bills'],
+      });
     },
   });
 

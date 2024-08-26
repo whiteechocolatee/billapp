@@ -17,6 +17,7 @@ import { Delete, Plus } from 'lucide-react';
 import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { ScrollArea } from '../ui/scroll-area';
 
 type FormValues = z.infer<typeof newBillSchema>;
 
@@ -95,108 +96,110 @@ export default function NewBillForm({ onClose }: FormProps) {
             )}
           />
         </div>
-        {fields.map((dishField, index) => (
-          <div
-            key={dishField.id}
-            className="flex border rounded-lg p-3 pt-12 flex-col items-center gap-6 relative"
-          >
-            <div className="w-full">
-              <FormField
-                control={control}
-                name={`dishes.${index}.name`}
-                render={({ field }) => (
-                  <FormItem>
-                    <Input id={field.name} placeholder="Борщ" {...field} />
-                    <FormMessage className="text-[10px]" />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex w-full items-center gap-5">
-              <FormField
-                control={control}
-                name={`dishes.${index}.quantity`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs">Кількість</FormLabel>
-                    <Input
-                      type="number"
-                      id={field.name}
-                      placeholder="Введіть кількість"
-                      {...field}
-                      onChange={e => {
-                        const value = e.target.valueAsNumber || 0;
-                        field.onChange(value);
-                        const pricePerUnit =
-                          parseFloat(
-                            watch(`dishes.${index}.pricePerUnit`).toString(),
-                          ) || 0;
-                        setValue(
-                          `dishes.${index}.totalPrice`,
-                          value * pricePerUnit,
-                        );
-                      }}
-                    />
-                    <FormMessage className="text-[10px]" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name={`dishes.${index}.pricePerUnit`}
-                render={({ field }) => (
-                  <FormItem className="max-w-30">
-                    <FormLabel className="text-xs">Ціна за одиницю</FormLabel>
-                    <Input
-                      type="number"
-                      id={field.name}
-                      placeholder="Введіть ціну за одиницю"
-                      {...field}
-                      onChange={e => {
-                        const value = e.target.valueAsNumber || 0;
-                        field.onChange(value);
-                        const quantity =
-                          parseFloat(
-                            watch(`dishes.${index}.quantity`).toString(),
-                          ) || 0;
-                        setValue(
-                          `dishes.${index}.totalPrice`,
-                          value * quantity,
-                        );
-                      }}
-                    />
-                    <FormMessage className="text-[10px]" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name={`dishes.${index}.totalPrice`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs">Загальна ціна</FormLabel>
-                    <Input
-                      disabled
-                      type="number"
-                      id={field.name}
-                      value={field.value || 0}
-                      readOnly
-                    />
-                    <FormMessage className="text-[10px]" />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <Button
-              className="absolute top-0 right-0"
-              variant="ghost"
-              type="button"
-              onClick={() => remove(index)}
+        <ScrollArea className="h-56 md:h-96 w-full">
+          {fields.map((dishField, index) => (
+            <div
+              key={dishField.id}
+              className="flex border rounded-lg p-3 pt-12 flex-col items-center gap-6 relative mt-4"
             >
-              <Delete className="size-4" />
-            </Button>
-          </div>
-        ))}
+              <div className="w-full">
+                <FormField
+                  control={control}
+                  name={`dishes.${index}.name`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <Input id={field.name} placeholder="Борщ" {...field} />
+                      <FormMessage className="text-[10px]" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex w-full items-center gap-5">
+                <FormField
+                  control={control}
+                  name={`dishes.${index}.quantity`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs">Кількість</FormLabel>
+                      <Input
+                        type="number"
+                        id={field.name}
+                        placeholder="Введіть кількість"
+                        {...field}
+                        onChange={e => {
+                          const value = e.target.valueAsNumber || 0;
+                          field.onChange(value);
+                          const pricePerUnit =
+                            parseFloat(
+                              watch(`dishes.${index}.pricePerUnit`).toString(),
+                            ) || 0;
+                          setValue(
+                            `dishes.${index}.totalPrice`,
+                            value * pricePerUnit,
+                          );
+                        }}
+                      />
+                      <FormMessage className="text-[10px]" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name={`dishes.${index}.pricePerUnit`}
+                  render={({ field }) => (
+                    <FormItem className="max-w-30">
+                      <FormLabel className="text-xs">Ціна 1 шт.</FormLabel>
+                      <Input
+                        type="number"
+                        id={field.name}
+                        placeholder="Введіть ціну за одиницю"
+                        {...field}
+                        onChange={e => {
+                          const value = e.target.valueAsNumber || 0;
+                          field.onChange(value);
+                          const quantity =
+                            parseFloat(
+                              watch(`dishes.${index}.quantity`).toString(),
+                            ) || 0;
+                          setValue(
+                            `dishes.${index}.totalPrice`,
+                            value * quantity,
+                          );
+                        }}
+                      />
+                      <FormMessage className="text-[10px]" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name={`dishes.${index}.totalPrice`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs">Загальна ціна</FormLabel>
+                      <Input
+                        disabled
+                        type="number"
+                        id={field.name}
+                        value={field.value || 0}
+                        readOnly
+                      />
+                      <FormMessage className="text-[10px]" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <Button
+                className="absolute top-0 right-0"
+                variant="ghost"
+                type="button"
+                onClick={() => remove(index)}
+              >
+                <Delete className="size-4" />
+              </Button>
+            </div>
+          ))}
+        </ScrollArea>
         <Button
           type="button"
           variant="outline"
