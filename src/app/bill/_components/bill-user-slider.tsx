@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import UpdateShareAmountForm from '@/src/components/forms/update-share-amout';
 import Image from 'next/image';
+import { cn } from '@/src/lib/utils';
 
 type Props = {
   name: string;
   userId: string;
   billId: string;
+  color: string;
   shareAmount: number;
   totalAmount: number;
   usersLength: number;
@@ -15,6 +17,7 @@ export default function BillUserSlider({
   name,
   userId,
   billId,
+  color,
   shareAmount,
   usersLength,
   totalAmount,
@@ -23,7 +26,12 @@ export default function BillUserSlider({
     useState<number>(shareAmount);
 
   return (
-    <div className="w-full relative bg-red/30 p-5 rounded-2xl">
+    <div
+      className={cn(
+        'w-full relative p-5 rounded-2xl bg-opacity-30',
+        `${color}`,
+      )}
+    >
       <Image
         className="hidden md:block absolute md:-top-10 md:-left-10"
         src="/user_bill.png"

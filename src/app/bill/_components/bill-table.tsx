@@ -21,8 +21,8 @@ export default function BillTable({ items, totalAmount }: Props) {
         <TableHeader>
           <TableRow>
             <TableHead>Страва</TableHead>
-            <TableHead className="text-center">К-ть</TableHead>
-            <TableHead className="text-center">Ціна за порцію</TableHead>
+            <TableHead className="text-center w-[80px]">К-ть</TableHead>
+            <TableHead className="text-center">Ціна</TableHead>
             <TableHead className="text-right">Загалом</TableHead>
           </TableRow>
         </TableHeader>

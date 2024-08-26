@@ -4,6 +4,7 @@ import BillCard from '@/src/app/bill/_components/bill-card';
 import BillsSkeleton from '@/src/components/bill-page-skeleton';
 import NewBillFormDialog from '@/src/components/modals/new-bill-form-dialog';
 import { useToast } from '@/src/components/ui/use-toast';
+import { colors } from '@/src/constants';
 import { useGetBills } from '@/src/features/use-get-bills';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
@@ -50,7 +51,9 @@ export default function Home() {
               <Plus className="size-6" />
               Створити рахунок
             </button>
-            {bills?.map(bill => <BillCard key={bill.id} bill={bill} />)}
+            {bills?.map((bill, index) => (
+              <BillCard key={bill.id} color={colors[index % 3]} bill={bill} />
+            ))}
           </div>
         )}
       </section>

@@ -22,7 +22,7 @@ export default function NewBillUserFormDialog({
 }: NewBillUserFormDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-xl">
+      <DialogContent className="max-w-[90%] md:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="text-2xl">
             Додати нового користувача

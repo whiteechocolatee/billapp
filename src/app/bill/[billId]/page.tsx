@@ -5,6 +5,7 @@ import BillUserSlider from '@/src/app/bill/_components/bill-user-slider';
 import MobileBillHeader from '@/src/app/bill/_components/mobile-bill-header';
 import NewBillUserFormDialog from '@/src/components/modals/new-bill-user-form-dialog';
 import { Button } from '@/src/components/ui/button';
+import { colors } from '@/src/constants';
 import { useGetBillById } from '@/src/features/use-get-bill-by-id';
 import { Loader } from 'lucide-react';
 import { useState } from 'react';
@@ -54,10 +55,11 @@ function BillPage({ params: { billId } }: Props) {
           </Button>
         </div>
         <div className="flex flex-col gap-12 mt-12">
-          {users.map(user => (
+          {users.map((user, index) => (
             <BillUserSlider
               usersLength={users.length}
               billId={user.billId}
+              color={colors[index % 3]}
               userId={user.id}
               key={user.id}
               name={user.name}
